@@ -1,14 +1,12 @@
-
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import Body from './Components/Body.jsx';
 
 function App() {
-
   return (
-   <div className='font-bold text-green-800 text-3xl'>
-    Namaste Everyone,let's build Nextflix GPT
-   </div>
+    <div>
+      <Body />
+    </div>
   );
 }
 
-export default App
+export default App;

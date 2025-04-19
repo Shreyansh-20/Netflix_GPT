@@ -4,6 +4,7 @@
 - Sign In / Sign Up form  
 - Redirects to **Browse Page** after successful authentication  
 
+
 ### 📺 Browse Page (Protected Route)
 - **Header** with navigation  
 - **Main Movie Section**  
