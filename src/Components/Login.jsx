@@ -1,5 +1,5 @@
 import { useState,useRef } from "react";
-
+import { addUser } from "../utils/userSlice.jsx";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate.jsx";
 import {  createUserWithEmailAndPassword ,signInWithEmailAndPassword,updateProfile} from "firebase/auth";
@@ -35,10 +35,20 @@ const Login=()=>{
       //this is the sign up form
       createUserWithEmailAndPassword(auth, email.current.value,password.current.value)
   .then((userCredential) => {
-    // Signed up 
+     
     const user = userCredential.user;
-    console.log(user)
-    navigate("/browse")
+   updateProfile(user, {
+  displayName: name.current.value, photoURL: "https://avatars.githubusercontent.com/u/123804973?s=400&u=4ea2de000ab09af7ecc7a6b52b55a8dd1095ac36&v=4"
+}).then(() => {
+  console.log(auth)
+  const {uid,email,displayName,photoURL} =auth.currentUser;
+      dispatch(addUser({uid: uid,email:email,displayName:displayName,photoURL:photoURL}))
+     navigate("/browse")
+  // ...
+}).catch((error) => {
+setErrorMessage(error.message)
+});
+  
     
   // ...
 })
@@ -56,16 +66,11 @@ const Login=()=>{
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
-    updateProfile(user, {
-  displayName: name.current.value, photoURL: "https://avatars.githubusercontent.com/u/123804973?s=400&u=4ea2de000ab09af7ecc7a6b52b55a8dd1095ac36&v=4"
-}).then(() => {
-  const {uid,email,displayName,photoURL} =auth.currentUser;
-      dispatch(addUser({uid: uid,email:email,displayName:displayName,photoURL:photoURL}))
-     navigate("/browse")
-  // ...
-}).catch((error) => {
-setErrorMessage(error.message)
-});
+     const { uid, email, displayName, photoURL } = user;
+    dispatch(addUser( {uid: uid,email:email,displayName:displayName,photoURL:photoURL} ));
+
+    navigate("/browse");
+   
 
     console.log(user)
  
